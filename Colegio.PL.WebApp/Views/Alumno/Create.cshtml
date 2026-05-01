@@ -1,0 +1,36 @@
+﻿@model Colegio.BL.BE.AlumnoBE
+@{
+    ViewData["Title"] = "Crear Alumno";
+}
+<h2>Crear Alumno</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Apellido</label>
+        <input asp-for="Apellido" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>DNI</label>
+        <input asp-for="DNI" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Fecha Nacimiento</label>
+        <input asp-for="FechaNacimiento" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label>Dirección</label>
+        <input asp-for="Direccion" class="form-control" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

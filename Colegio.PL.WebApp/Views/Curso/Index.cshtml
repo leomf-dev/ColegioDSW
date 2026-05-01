@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Colegio.BL.BE.Curso>
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<h2 class="mb-3">Lista de Cursos</h2>
+<a href="@Url.Action("Create")" class="btn btn-success mb-3">+ Nuevo Curso</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>IdCurso</th>
+            <th>Nombre</th>
+            <th>Creditos</th>
+            <th style="width: 200px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var c in Model) {
+        <tr>
+            <td>@c.IdCurso</td>
+            <td>@c.Nombre</td>
+            <td>@c.Creditos</td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@c.IdCurso">Detalles</a>
+                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@c.IdCurso">Editar</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@c.IdCurso">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

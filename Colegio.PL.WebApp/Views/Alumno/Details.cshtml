@@ -1,0 +1,21 @@
+﻿@model Colegio.BL.BE.AlumnoBE
+
+@{
+    ViewBag.Title = "Detalles del Alumno";
+}
+
+<h2 class="mb-3">Detalles del Alumno</h2>
+
+<div class="card">
+    <div class="card-body">
+
+        <p><strong>Nombre:</strong> @Model.Nombre</p>
+        <p><strong>Apellido:</strong> @Model.Apellido</p>
+        <p><strong>DNI:</strong> @Model.DNI</p>
+        <p><strong>Fecha Nacimiento:</strong> @Model.FechaNacimiento@*.ToString("dd/MM/yyyy")*@</p>
+        <p><strong>Dirección:</strong> @Model.Direccion</p>
+
+    </div>
+</div>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary mt-3">Volver</a>

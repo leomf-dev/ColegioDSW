@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Colegio.BL.BE.AlumnoBE>
+@{
+    ViewData["Title"] = "Alumnos";
+}
+<h2>Alumnos</h2>
+<p><a class="btn btn-primary" asp-action="Create">Nuevo Alumno</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Acciones</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.IdAlumno</td>
+                <td>@a.Nombre</td>
+                <td>@a.Apellido</td>
+                <td>@a.DNI</td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@a.IdAlumno">Ver</a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@a.IdAlumno">Editar</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@a.IdAlumno">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

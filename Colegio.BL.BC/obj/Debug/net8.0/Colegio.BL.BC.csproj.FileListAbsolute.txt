@@ -1,0 +1,17 @@
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.BL.BC.deps.json
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.BL.BC.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.BL.BC.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.BL.BE.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.DL.DALC.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.BL.BE.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\bin\Debug\net8.0\Colegio.DL.DALC.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.csproj.AssemblyReference.cache
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.GeneratedMSBuildEditorConfig.editorconfig
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.AssemblyInfoInputs.cache
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.AssemblyInfo.cs
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.csproj.CoreCompileInputs.cache
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio..A6A49A89.Up2Date
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\refint\Colegio.BL.BC.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\Colegio.BL.BC.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BC\obj\Debug\net8.0\ref\Colegio.BL.BC.dll

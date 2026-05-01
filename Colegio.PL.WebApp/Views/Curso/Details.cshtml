@@ -1,0 +1,16 @@
+﻿@model Colegio.BL.BE.Curso
+
+@{
+    ViewBag.Title = "Detalles del Curso";
+}
+
+<h2 class="mb-3">Detalles del Curso</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @Model.Nombre</p>
+        <p><strong>Créditos:</strong> @Model.Creditos</p>
+    </div>
+</div>
+
+<a href="@Url.Action("Index")" class="btn btn-secondary mt-3">Volver</a>

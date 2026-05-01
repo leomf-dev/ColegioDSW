@@ -1,0 +1,29 @@
+﻿@model Colegio.BL.BE.Curso
+
+@{
+    ViewBag.Title = "Nuevo Curso";
+}
+
+<h2 class="mb-3">Registrar Curso</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Nombre)
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nombre)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Creditos)
+        @Html.TextBoxFor(m => m.Creditos, new { @class = "form-control", type = "number" })
+        @Html.ValidationMessageFor(m => m.Creditos)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Volver</a>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

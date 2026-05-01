@@ -1,0 +1,43 @@
+﻿@model Colegio.BL.BE.Matricula
+
+@{
+    ViewBag.Title = "Registrar Matrícula";
+}
+
+<h2 class="mb-3">Registrar Matrícula</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group mb-3">
+        <label>Alumno</label>
+        @Html.DropDownListFor(m => m.IdAlumno, (IEnumerable<SelectListItem>)ViewBag.Alumnos,
+        "-- Seleccione Alumno --", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.IdAlumno)
+</div>
+
+<div class="form-group mb-3">
+    @Html.LabelFor(m => m.FechaMatricula)
+    @Html.TextBoxFor(m => m.FechaMatricula, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+</div>
+
+<div class="form-group mb-3">
+    @Html.LabelFor(m => m.Periodo)
+    @Html.TextBoxFor(m => m.Periodo, new { @class = "form-control" })
+</div>
+
+<div class="form-group mb-3">
+    <label>Cursos a matricular</label>
+    @Html.ListBoxFor(m => m.CursosSeleccionados, (IEnumerable<SelectListItem>)ViewBag.Cursos,
+        new { @class = "form-control", size = 8 })
+    <small class="text-muted">Use Ctrl + Click para seleccionar varios cursos</small>
+</div>
+
+<button type="submit" class="btn btn-primary">Guardar Matrícula</button>
+<a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,21 @@
+﻿@model Colegio.BL.BE.AlumnoBE
+
+@{
+    ViewBag.Title = "Eliminar Alumno";
+}
+
+<h2 class="text-danger mb-3">¿Desea eliminar este alumno?</h2>
+
+<div class="card border-danger">
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @Model.Nombre</p>
+        <p><strong>Apellido:</strong> @Model.Apellido</p>
+        <p><strong>DNI:</strong> @Model.DNI</p>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteConfirmed", "Alumno", new { id = Model.IdAlumno }))
+{
+    <button type="submit" class="btn btn-danger mt-3">Eliminar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary mt-3">Cancelar</a>
+}

@@ -1,0 +1,46 @@
+﻿@model Colegio.BL.BE.AlumnoBE
+
+@{
+    ViewBag.Title = "Editar Alumno";
+}
+
+<h2 class="mb-3">Editar Alumno</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.IdAlumno)
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Nombre)
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nombre)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Apellido)
+        @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Apellido)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.DNI)
+        @Html.TextBoxFor(m => m.DNI, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.FechaNacimiento)
+        @Html.TextBoxFor(m => m.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Direccion)
+        @Html.TextAreaFor(m => m.Direccion, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Volver</a>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

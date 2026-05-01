@@ -1,0 +1,11 @@
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\bin\Debug\net8.0\Colegio.BL.BE.deps.json
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\bin\Debug\net8.0\Colegio.BL.BE.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\bin\Debug\net8.0\Colegio.BL.BE.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.GeneratedMSBuildEditorConfig.editorconfig
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.AssemblyInfoInputs.cache
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.AssemblyInfo.cs
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.csproj.CoreCompileInputs.cache
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\refint\Colegio.BL.BE.dll
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\Colegio.BL.BE.pdb
+D:\workspace\dsw\ColegioDSW\Colegio.BL.BE\obj\Debug\net8.0\ref\Colegio.BL.BE.dll
