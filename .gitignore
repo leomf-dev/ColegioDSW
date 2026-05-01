@@ -1,0 +1,43 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# Rider / VS caches
+*.idea/
+*.vscode/
+*.resharper*
+*_ReSharper.*
+*.cache
+*.ncb
+*.sdf
+*.opensdf
+*.dbmdl
+*.pdb
+*.opendb
+*.vspscc
+*.vssscc
+
+# Test results
+TestResults/
+
+# IIS Express
+IISExpress/
+
+# Local development settings
+appsettings.Development.json
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
