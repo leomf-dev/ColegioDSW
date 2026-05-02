@@ -8,6 +8,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
     <div class="form-group mb-3">
         <label>Alumno</label>
         @Html.DropDownListFor(m => m.IdAlumno, (IEnumerable<SelectListItem>)ViewBag.Alumnos,
@@ -27,9 +29,18 @@
 
 <div class="form-group mb-3">
     <label>Cursos a matricular</label>
-    @Html.ListBoxFor(m => m.CursosSeleccionados, (IEnumerable<SelectListItem>)ViewBag.Cursos,
-        new { @class = "form-control", size = 8 })
-    <small class="text-muted">Use Ctrl + Click para seleccionar varios cursos</small>
+    <div class="border rounded p-3" style="max-height: 320px; overflow-y: auto;">
+        @foreach (var curso in (IEnumerable<SelectListItem>)ViewBag.Cursos)
+        {
+            var cursoId = int.Parse(curso.Value);
+            var estaSeleccionado = Model?.CursosSeleccionados?.Contains(cursoId) == true;
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="CursosSeleccionados" value="@curso.Value" id="curso_@curso.Value" @(estaSeleccionado ? "checked" : "") />
+                <label class="form-check-label" for="curso_@curso.Value">@curso.Text</label>
+            </div>
+        }
+    </div>
+    @Html.ValidationMessageFor(m => m.CursosSeleccionados)
 </div>
 
 <button type="submit" class="btn btn-primary">Guardar Matrícula</button>

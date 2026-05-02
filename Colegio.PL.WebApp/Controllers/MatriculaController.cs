@@ -26,16 +26,8 @@ namespace Colegio.PL.WebApp.Controllers
         public IActionResult Create()
         {
             ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-            //ViewBag.Alumnos = _alumnoBC.ListarAlumnos().Select(a => new { a.IdAlumno, NombreCompleto = a.Nombre + " " + a.Apellido }).ToList();
-            /*ViewBag.Cursos = _cursoBC.Listar()
-                             .Select(c => new SelectListItem
-                             {
-                                 Value = c.IdCurso.ToString(),
-                                 Text = c.Nombre
-                             })
-                             .ToList();*/
             ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
-            return View();
+            return View(new Matricula { CursosSeleccionados = new List<int>() });
         }
 
         [HttpPost]
@@ -51,14 +43,7 @@ namespace Colegio.PL.WebApp.Controllers
             {
                 // Reconstruccion
                 ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-
-                ViewBag.Cursos = _cursoBC.Listar()
-                                         .Select(c => new SelectListItem
-                                         {
-                                             Value = c.IdCurso.ToString(),
-                                             Text = c.Nombre
-                                         })
-                                         .ToList();
+                ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
 
                 return View(matricula);
             }
@@ -74,14 +59,7 @@ namespace Colegio.PL.WebApp.Controllers
 
                 // Reconstruccion
                 ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-
-                ViewBag.Cursos = _cursoBC.Listar()
-                                         .Select(c => new SelectListItem
-                                         {
-                                             Value = c.IdCurso.ToString(),
-                                             Text = c.Nombre
-                                         })
-                                         .ToList();
+                ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
 
                 return View(matricula);
             }
