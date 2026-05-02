@@ -33,6 +33,9 @@ CREATE TABLE Matricula (
     IdAlumno INT NOT NULL,
     FechaMatricula DATETIME NOT NULL DEFAULT GETDATE(),
     Periodo NVARCHAR(50) NOT NULL,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activa' CHECK (Estado IN ('Activa', 'Anulada', 'Retirada', 'Cancelada')),
+    FechaEstado DATETIME NULL,
+    Observacion NVARCHAR(500) NULL,
     CONSTRAINT FK_Matricula_Alumno FOREIGN KEY (IdAlumno) REFERENCES Alumno(IdAlumno) ON DELETE CASCADE
 );
 GO
@@ -49,13 +52,13 @@ GO
 
 -- 3) Datos de ejemplo
 INSERT INTO Curso (Nombre, Creditos) VALUES
-('Matemáticas I', 4),
-('Comunicación', 3),
-('Programación I', 4);
+('Matemï¿½ticas I', 4),
+('Comunicaciï¿½n', 3),
+('Programaciï¿½n I', 4);
 
 INSERT INTO Alumno (Nombre, Apellido, DNI, FechaNacimiento, Direccion) VALUES
 ('Juan', 'Perez', '71717171', '2005-06-12', 'Av. Principal 100'),
-('María', 'Gonzales', '81818181', '2006-03-01', 'Jr. Secundaria 45');
+('Marï¿½a', 'Gonzales', '81818181', '2006-03-01', 'Jr. Secundaria 45');
 GO
 
 -- Matriculas ejemplo

@@ -41,6 +41,12 @@ namespace Colegio.PL.WebApp.Controllers
         [HttpPost]
         public IActionResult Create(Matricula matricula)
         {
+            // Inicializar lista si viene null
+            if (matricula.CursosSeleccionados == null)
+            {
+                matricula.CursosSeleccionados = new List<int>();
+            }
+
             if (!ModelState.IsValid)
             {
                 // Reconstruccion
@@ -79,6 +85,74 @@ namespace Colegio.PL.WebApp.Controllers
 
                 return View(matricula);
             }
+        }
+
+        public IActionResult Details(int id)
+        {
+            var matricula = _matriculaBC.Consultar(id);
+            if (matricula == null)
+                return NotFound();
+            return View(matricula);
+        }
+
+        [HttpPost]
+        public IActionResult Anular(int id, string observacion)
+        {
+            try
+            {
+                _matriculaBC.AnularMatricula(id, observacion);
+                TempData["Success"] = "Matrícula anulada correctamente";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error al anular matrícula: {ex.Message}";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        public IActionResult Retirar(int id, string observacion)
+        {
+            try
+            {
+                _matriculaBC.RetirarMatricula(id, observacion);
+                TempData["Success"] = "Matrícula retirada correctamente";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error al retirar matrícula: {ex.Message}";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        public IActionResult Cancelar(int id, string observacion)
+        {
+            try
+            {
+                _matriculaBC.CancelarMatricula(id, observacion);
+                TempData["Success"] = "Matrícula cancelada correctamente";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error al cancelar matrícula: {ex.Message}";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        public IActionResult RetirarCurso(int idMatricula, int idCurso)
+        {
+            try
+            {
+                _matriculaBC.RetirarCurso(idMatricula, idCurso);
+                TempData["Success"] = "Curso retirado correctamente";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error al retirar curso: {ex.Message}";
+            }
+            return RedirectToAction(nameof(Details), new { id = idMatricula });
         }
     }
 }

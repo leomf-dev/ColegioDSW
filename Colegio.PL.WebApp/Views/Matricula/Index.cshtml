@@ -11,9 +11,12 @@
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
+            <th>ID</th>
             <th>Alumno</th>
+            <th>DNI</th>
             <th>Fecha</th>
             <th>Periodo</th>
+            <th>Estado</th>
             <th style="width: 200px;">Acciones</th>
         </tr>
     </thead>
@@ -21,12 +24,23 @@
         @foreach (var m in Model)
         {
             <tr>
-                <td>@m.NombreAlumno</td>
+                <td>@m.IdMatricula</td>
+                <td>@m.NombreAlumno @m.ApellidoAlumno</td>
+                <td>@m.DNIAlumno</td>
                 <td>@m.FechaMatricula.ToString("dd/MM/yyyy")</td>
                 <td>@m.Periodo</td>
                 <td>
-                    <a href="@Url.Action("Details", new { id = m.IdMatricula })" class="btn btn-info btn-sm">Detalles</a>
-                    <a href="@Url.Action("Delete", new { id = m.IdMatricula })" class="btn btn-danger btn-sm">Eliminar</a>
+                    <span class="badge @(m.Estado == "Activa" ? "bg-success" : m.Estado == "Anulada" ? "bg-danger" : m.Estado == "Retirada" ? "bg-warning" : "bg-secondary")">
+                        @m.Estado
+                    </span>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = m.IdMatricula })" class="btn btn-info btn-sm">Consultar</a>
+                    @if (m.Estado == "Activa")
+                    {
+                        <a href="@Url.Action("Delete", new { id = m.IdMatricula })" class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Está seguro de eliminar esta matrícula?')">Eliminar</a>
+                    }
                 </td>
             </tr>
         }

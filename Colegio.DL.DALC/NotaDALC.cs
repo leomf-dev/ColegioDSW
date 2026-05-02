@@ -104,5 +104,46 @@ namespace Colegio.DL.DALC
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public List<Nota> GetByMatricula(int idMatricula)
+        {
+            var list = new List<Nota>();
+            using (var cn = Conexion.CreateConnection(_conn))
+            using (var cmd = new SqlCommand("sp_Nota_GetByMatricula", cn))
+            {
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IdMatricula", idMatricula);
+                cn.Open();
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        list.Add(new Nota
+                        {
+                            IdNota = Convert.ToInt32(dr["IdNota"]),
+                            IdMatricula = Convert.ToInt32(dr["IdMatricula"]),
+                            IdCurso = Convert.ToInt32(dr["IdCurso"]),
+                            Calificacion = Convert.ToDecimal(dr["Calificacion"]),
+                            CursoNombre = dr["CursoNombre"] == DBNull.Value ? null : dr["CursoNombre"].ToString(),
+                            IdAlumno = dr["IdAlumno"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdAlumno"])
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public void DeleteByMatriculaAndCurso(int idMatricula, int idCurso)
+        {
+            using (var cn = Conexion.CreateConnection(_conn))
+            using (var cmd = new SqlCommand("sp_Nota_DeleteByMatriculaAndCurso", cn))
+            {
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IdMatricula", idMatricula);
+                cmd.Parameters.AddWithValue("@IdCurso", idCurso);
+                cn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
