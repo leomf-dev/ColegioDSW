@@ -1,0 +1,36 @@
+@model Colegio.BL.BE.HorarioBE
+
+@{
+    ViewBag.Title = "Detalles del Horario";
+}
+
+<h2 class="mb-3">Detalles del Horario</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Información del Horario</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">ID Horario:</dt>
+            <dd class="col-sm-8">@Model.IdHorario</dd>
+
+            <dt class="col-sm-4">Sección:</dt>
+            <dd class="col-sm-8">@Model.NombreSeccion</dd>
+
+            <dt class="col-sm-4">Día:</dt>
+            <dd class="col-sm-8">@Model.Dia</dd>
+
+            <dt class="col-sm-4">Hora Inicio:</dt>
+            <dd class="col-sm-8">@Model.HoraInicio.ToString(@"hh\:mm")</dd>
+
+            <dt class="col-sm-4">Hora Fin:</dt>
+            <dd class="col-sm-8">@Model.HoraFin.ToString(@"hh\:mm")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="@Url.Action("Edit", new { id = Model.IdHorario })" class="btn btn-warning">Editar</a>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Volver a la Lista</a>
+</div>

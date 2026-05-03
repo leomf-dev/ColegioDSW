@@ -1,0 +1,48 @@
+@model Colegio.BL.BE.HorarioBE
+
+@{
+    ViewBag.Title = "Editar Horario";
+}
+
+<h2 class="mb-3">Editar Horario</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.IdHorario)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+    <div class="form-group mb-3">
+        <label>Sección</label>
+        @Html.DropDownListFor(m => m.IdSeccion, (IEnumerable<SelectListItem>)ViewBag.Secciones,
+        "-- Seleccione Sección --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IdSeccion)
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Día</label>
+        @Html.DropDownListFor(m => m.Dia, (IEnumerable<SelectListItem>)ViewBag.Dias,
+        "-- Seleccione Día --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Dia)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.HoraInicio)
+        @Html.TextBoxFor(m => m.HoraInicio, new { @class = "form-control", type = "time" })
+        @Html.ValidationMessageFor(m => m.HoraInicio)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.HoraFin)
+        @Html.TextBoxFor(m => m.HoraFin, new { @class = "form-control", type = "time" })
+        @Html.ValidationMessageFor(m => m.HoraFin)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

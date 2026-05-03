@@ -1,0 +1,53 @@
+@model Colegio.BL.BE.SeccionBE
+
+@{
+    ViewBag.Title = "Crear Sección";
+}
+
+<h2 class="mb-3">Crear Nueva Sección</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+    <div class="form-group mb-3">
+        <label>Curso</label>
+        @Html.DropDownListFor(m => m.IdCurso, (IEnumerable<SelectListItem>)ViewBag.Cursos,
+        "-- Seleccione Curso --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IdCurso)
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Docente</label>
+        @Html.DropDownListFor(m => m.IdDocente, (IEnumerable<SelectListItem>)ViewBag.Docentes,
+        "-- Seleccione Docente --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IdDocente)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CodigoSeccion)
+        @Html.TextBoxFor(m => m.CodigoSeccion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CodigoSeccion)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CapacidadMaxima)
+        @Html.TextBoxFor(m => m.CapacidadMaxima, new { @class = "form-control", type = "number" })
+        @Html.ValidationMessageFor(m => m.CapacidadMaxima)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Estado)
+        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activo", "Inactivo" }), new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Estado)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

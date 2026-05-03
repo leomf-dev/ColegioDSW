@@ -1,0 +1,55 @@
+@model IEnumerable<Colegio.BL.BE.DocenteBE>
+
+@{
+    ViewBag.Title = "Docentes";
+}
+
+<h2 class="mb-3">Gestión de Docentes</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Nuevo Docente</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Especialidad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var docente in Model)
+        {
+            <tr>
+                <td>@docente.IdDocente</td>
+                <td>@docente.Nombres</td>
+                <td>@docente.Apellidos</td>
+                <td>@docente.Especialidad</td>
+                <td>
+                    <span class="badge @(docente.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                        @docente.Estado
+                    </span>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = docente.IdDocente })" class="btn btn-sm btn-info">Ver</a>
+                    <a href="@Url.Action("Edit", new { id = docente.IdDocente })" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="@Url.Action("Delete", new { id = docente.IdDocente })" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

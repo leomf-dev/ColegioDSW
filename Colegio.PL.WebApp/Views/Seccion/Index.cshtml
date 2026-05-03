@@ -1,0 +1,57 @@
+@model IEnumerable<Colegio.BL.BE.SeccionBE>
+
+@{
+    ViewBag.Title = "Secciones";
+}
+
+<h2 class="mb-3">Gestión de Secciones</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Nueva Sección</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Curso</th>
+            <th>Docente</th>
+            <th>Capacidad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var seccion in Model)
+        {
+            <tr>
+                <td>@seccion.IdSeccion</td>
+                <td>@seccion.CodigoSeccion</td>
+                <td>@seccion.NombreCurso</td>
+                <td>@seccion.NombreDocente</td>
+                <td>@seccion.CapacidadMaxima</td>
+                <td>
+                    <span class="badge @(seccion.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                        @seccion.Estado
+                    </span>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = seccion.IdSeccion })" class="btn btn-sm btn-info">Ver</a>
+                    <a href="@Url.Action("Edit", new { id = seccion.IdSeccion })" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="@Url.Action("Delete", new { id = seccion.IdSeccion })" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

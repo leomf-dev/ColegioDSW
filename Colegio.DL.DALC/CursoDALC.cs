@@ -19,8 +19,11 @@ namespace Colegio.DL.DALC
             using (var cmd = new SqlCommand("sp_Curso_Insert", cn))
             {
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Codigo", c.Codigo);
                 cmd.Parameters.AddWithValue("@Nombre", c.Nombre);
                 cmd.Parameters.AddWithValue("@Creditos", c.Creditos);
+                cmd.Parameters.AddWithValue("@HorasSemanales", c.HorasSemanales);
+                cmd.Parameters.AddWithValue("@Estado", c.Estado);
                 var p = new SqlParameter("@NewId", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output };
                 cmd.Parameters.Add(p);
                 cn.Open();
@@ -44,8 +47,11 @@ namespace Colegio.DL.DALC
                         list.Add(new Curso
                         {
                             IdCurso = Convert.ToInt32(dr["IdCurso"]),
+                            Codigo = dr["Codigo"].ToString(),
                             Nombre = dr["Nombre"].ToString(),
-                            Creditos = Convert.ToInt32(dr["Creditos"])
+                            Creditos = Convert.ToInt32(dr["Creditos"]),
+                            HorasSemanales = Convert.ToInt32(dr["HorasSemanales"]),
+                            Estado = dr["Estado"].ToString()
                         });
                     }
                 }
@@ -68,8 +74,11 @@ namespace Colegio.DL.DALC
                         return new Curso
                         {
                             IdCurso = Convert.ToInt32(dr["IdCurso"]),
+                            Codigo = dr["Codigo"].ToString(),
                             Nombre = dr["Nombre"].ToString(),
-                            Creditos = Convert.ToInt32(dr["Creditos"])
+                            Creditos = Convert.ToInt32(dr["Creditos"]),
+                            HorasSemanales = Convert.ToInt32(dr["HorasSemanales"]),
+                            Estado = dr["Estado"].ToString()
                         };
                     }
                 }
@@ -84,8 +93,11 @@ namespace Colegio.DL.DALC
             {
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdCurso", c.IdCurso);
+                cmd.Parameters.AddWithValue("@Codigo", c.Codigo);
                 cmd.Parameters.AddWithValue("@Nombre", c.Nombre);
                 cmd.Parameters.AddWithValue("@Creditos", c.Creditos);
+                cmd.Parameters.AddWithValue("@HorasSemanales", c.HorasSemanales);
+                cmd.Parameters.AddWithValue("@Estado", c.Estado);
                 cn.Open(); cmd.ExecuteNonQuery();
             }
         }

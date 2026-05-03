@@ -1,0 +1,51 @@
+@model IEnumerable<Colegio.BL.BE.HorarioBE>
+
+@{
+    ViewBag.Title = "Horarios";
+}
+
+<h2 class="mb-3">Gestión de Horarios</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Nuevo Horario</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sección</th>
+            <th>Día</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var horario in Model)
+        {
+            <tr>
+                <td>@horario.IdHorario</td>
+                <td>@horario.NombreSeccion</td>
+                <td>@horario.Dia</td>
+                <td>@horario.HoraInicio.ToString(@"hh\:mm")</td>
+                <td>@horario.HoraFin.ToString(@"hh\:mm")</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = horario.IdHorario })" class="btn btn-sm btn-info">Ver</a>
+                    <a href="@Url.Action("Edit", new { id = horario.IdHorario })" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="@Url.Action("Delete", new { id = horario.IdHorario })" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

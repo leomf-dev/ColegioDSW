@@ -19,23 +19,23 @@ namespace Colegio.BL.BE
 
         [Required(ErrorMessage = "El período es obligatorio")]
         [StringLength(50, ErrorMessage = "El período no puede exceder 50 caracteres")]
-        public string Periodo { get; set; }
+        public string Periodo { get; set; } = string.Empty;
 
         public string Estado { get; set; } = "Activa";
         public DateTime? FechaEstado { get; set; }
-        public string Observacion { get; set; }
+        public string? Observacion { get; set; }
 
         // Extras para la vista
-        [Required(ErrorMessage = "Debe seleccionar al menos un curso")]
-        [MinLength(1, ErrorMessage = "Debe seleccionar al menos un curso")]
-        public List<int> CursosSeleccionados { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar al menos una sección")]
+        [MinLength(1, ErrorMessage = "Debe seleccionar al menos una sección")]
+        public List<int> SeccionesSeleccionadas { get; set; } = new List<int>();
 
         // Propiedades de navegación simples (para mostrar datos)
-        public string NombreAlumno { get; set; }
-        public string ApellidoAlumno { get; set; }
-        public string DNIAlumno { get; set; }
+        public string? NombreAlumno { get; set; }
+        public string? ApellidoAlumno { get; set; }
+        public string? DNIAlumno { get; set; }
 
-        // Para mostrar cursos matriculados
-        public List<Nota> Notas { get; set; } = new List<Nota>();
+        // Para mostrar detalles de matrícula
+        public List<DetalleMatriculaBE> DetallesMatricula { get; set; } = new List<DetalleMatriculaBE>();
     }
 }

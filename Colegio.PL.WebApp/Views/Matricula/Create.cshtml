@@ -28,19 +28,19 @@
 </div>
 
 <div class="form-group mb-3">
-    <label>Cursos a matricular</label>
+    <label>Secciones a matricular</label>
     <div class="border rounded p-3" style="max-height: 320px; overflow-y: auto;">
-        @foreach (var curso in (IEnumerable<SelectListItem>)ViewBag.Cursos)
+        @foreach (var seccion in (IEnumerable<SelectListItem>)ViewBag.Secciones)
         {
-            var cursoId = int.Parse(curso.Value);
-            var estaSeleccionado = Model?.CursosSeleccionados?.Contains(cursoId) == true;
+            var seccionId = int.Parse(seccion.Value);
+            var estaSeleccionado = Model?.SeccionesSeleccionadas?.Contains(seccionId) == true;
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="CursosSeleccionados" value="@curso.Value" id="curso_@curso.Value" @(estaSeleccionado ? "checked" : "") />
-                <label class="form-check-label" for="curso_@curso.Value">@curso.Text</label>
+                <input class="form-check-input" type="checkbox" name="SeccionesSeleccionadas" value="@seccion.Value" id="seccion_@seccion.Value" @(estaSeleccionado ? "checked" : "") />
+                <label class="form-check-label" for="seccion_@seccion.Value">@seccion.Text</label>
             </div>
         }
     </div>
-    @Html.ValidationMessageFor(m => m.CursosSeleccionados)
+    @Html.ValidationMessageFor(m => m.SeccionesSeleccionadas)
 </div>
 
 <button type="submit" class="btn btn-primary">Guardar Matrícula</button>

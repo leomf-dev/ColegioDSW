@@ -53,34 +53,38 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h5>Cursos Matriculados</h5>
+                <h5>Secciones Matriculadas</h5>
             </div>
             <div class="card-body">
-                @if (Model.Notas.Any())
+                @if (Model.DetallesMatricula.Any())
                 {
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Curso</th>
-                                <th>Calificación</th>
+                                <th>Sección</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var nota in Model.Notas)
+                            @foreach (var detalle in Model.DetallesMatricula)
                             {
                                 <tr>
-                                    <td>@nota.CursoNombre</td>
-                                    <td>@nota.Calificacion</td>
+                                    <td>@detalle.CodigoSeccion</td>
                                     <td>
-                                        @if (Model.Estado == "Activa")
+                                        <span class="badge @(detalle.Estado == "Activo" ? "bg-success" : detalle.Estado == "Retirado" ? "bg-warning" : "bg-secondary")">
+                                            @detalle.Estado
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (Model.Estado == "Activa" && detalle.Estado == "Activo")
                                         {
-                                            <form method="post" action="@Url.Action("RetirarCurso", "Matricula")" style="display:inline;">
+                                            <form method="post" action="@Url.Action("RetirarSeccion", "Matricula")" style="display:inline;">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="idMatricula" value="@Model.IdMatricula" />
-                                                <input type="hidden" name="idCurso" value="@nota.IdCurso" />
+                                                <input type="hidden" name="idSeccion" value="@detalle.IdSeccion" />
                                                 <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                        onclick="return confirm('¿Está seguro de retirar este curso?')">
+                                                        onclick="return confirm('¿Está seguro de retirar esta sección?')">
                                                     Retirar
                                                 </button>
                                             </form>
@@ -93,7 +97,7 @@
                 }
                 else
                 {
-                    <p class="text-muted">No hay cursos matriculados.</p>
+                    <p class="text-muted">No hay secciones matriculadas.</p>
                 }
             </div>
         </div>

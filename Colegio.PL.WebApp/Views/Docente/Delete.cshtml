@@ -1,0 +1,41 @@
+@model Colegio.BL.BE.DocenteBE
+
+@{
+    ViewBag.Title = "Eliminar Docente";
+}
+
+<h2 class="mb-3">¿Está seguro de que desea eliminar este docente?</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Información del Docente</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">ID Docente:</dt>
+            <dd class="col-sm-8">@Model.IdDocente</dd>
+
+            <dt class="col-sm-4">Nombres:</dt>
+            <dd class="col-sm-8">@Model.Nombres</dd>
+
+            <dt class="col-sm-4">Apellidos:</dt>
+            <dd class="col-sm-8">@Model.Apellidos</dd>
+
+            <dt class="col-sm-4">Especialidad:</dt>
+            <dd class="col-sm-8">@Model.Especialidad</dd>
+
+            <dt class="col-sm-4">Estado:</dt>
+            <dd class="col-sm-8">@Model.Estado</dd>
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteConfirmed", "Docente", new { id = Model.IdDocente }))
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-warning mt-3">
+        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+    </div>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}

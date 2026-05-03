@@ -8,11 +8,15 @@ builder.Services.AddControllersWithViews();
 // Leer connection string
 string conn = builder.Configuration.GetConnectionString("ColegioDB");
 
-// Registrar BC con factory (inyección simple)
+// Registrar BC con factory (inyecciï¿½n simple)
 builder.Services.AddScoped(sp => new AlumnoBC(conn));
 builder.Services.AddScoped(sp => new CursoBC(conn));
 builder.Services.AddScoped(sp => new MatriculaBC(conn));
 builder.Services.AddScoped(sp => new NotaBC(conn));
+builder.Services.AddScoped(sp => new DocenteBC(conn));
+builder.Services.AddScoped(sp => new SeccionBC(conn));
+builder.Services.AddScoped(sp => new HorarioBC(conn));
+builder.Services.AddScoped(sp => new DetalleMatriculaBC(conn));
 
 var app = builder.Build();
 

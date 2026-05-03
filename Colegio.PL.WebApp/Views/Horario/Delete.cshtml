@@ -1,0 +1,41 @@
+@model Colegio.BL.BE.HorarioBE
+
+@{
+    ViewBag.Title = "Eliminar Horario";
+}
+
+<h2 class="mb-3">¿Está seguro de que desea eliminar este horario?</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Información del Horario</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">ID Horario:</dt>
+            <dd class="col-sm-8">@Model.IdHorario</dd>
+
+            <dt class="col-sm-4">Sección:</dt>
+            <dd class="col-sm-8">@Model.NombreSeccion</dd>
+
+            <dt class="col-sm-4">Día:</dt>
+            <dd class="col-sm-8">@Model.Dia</dd>
+
+            <dt class="col-sm-4">Hora Inicio:</dt>
+            <dd class="col-sm-8">@Model.HoraInicio.ToString(@"hh\:mm")</dd>
+
+            <dt class="col-sm-4">Hora Fin:</dt>
+            <dd class="col-sm-8">@Model.HoraFin.ToString(@"hh\:mm")</dd>
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteConfirmed", "Horario", new { id = Model.IdHorario }))
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-warning mt-3">
+        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+    </div>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}

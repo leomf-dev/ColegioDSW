@@ -9,12 +9,12 @@ namespace Colegio.PL.WebApp.Controllers
     {
         private readonly MatriculaBC _matriculaBC;
         private readonly AlumnoBC _alumnoBC;
-        private readonly CursoBC _cursoBC;
-        public MatriculaController(MatriculaBC matricula, AlumnoBC alumnoBC, CursoBC cursoBC)
+        private readonly SeccionBC _seccionBC;
+        public MatriculaController(MatriculaBC matricula, AlumnoBC alumnoBC, SeccionBC seccionBC)
         {
             _matriculaBC = matricula;
             _alumnoBC = alumnoBC;
-            _cursoBC = cursoBC;
+            _seccionBC = seccionBC;
         }
 
         public IActionResult Index()
@@ -26,40 +26,83 @@ namespace Colegio.PL.WebApp.Controllers
         public IActionResult Create()
         {
             ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-            ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
-            return View(new Matricula { CursosSeleccionados = new List<int>() });
+            ViewBag.Secciones = new SelectList(_seccionBC.Listar(), "IdSeccion", "CodigoSeccion");
+            return View(new Matricula { SeccionesSeleccionadas = new List<int>() });
         }
 
         [HttpPost]
-        public IActionResult Create(Matricula matricula)
+        public IActionResult Create(Matricula matricula, string[] SeccionesSeleccionadas)
         {
-            // Inicializar lista si viene null
-            if (matricula.CursosSeleccionados == null)
+            Console.WriteLine($"=== DEBUG MATRICULA ===");
+            Console.WriteLine($"Parámetro SeccionesSeleccionadas array: {SeccionesSeleccionadas?.Length ?? 0}");
+            if (SeccionesSeleccionadas != null)
             {
-                matricula.CursosSeleccionados = new List<int>();
+                foreach (var seccion in SeccionesSeleccionadas)
+                {
+                    Console.WriteLine($"Seccion string: '{seccion}'");
+                }
+            }
+
+            // Inicializar lista si viene null
+            if (matricula.SeccionesSeleccionadas == null)
+            {
+                matricula.SeccionesSeleccionadas = new List<int>();
+            }
+
+            // Convertir array de strings a lista de ints
+            if (SeccionesSeleccionadas != null && SeccionesSeleccionadas.Length > 0)
+            {
+                matricula.SeccionesSeleccionadas = SeccionesSeleccionadas
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .Select(s => int.Parse(s))
+                    .ToList();
+                Console.WriteLine($"Convertidos a int: {matricula.SeccionesSeleccionadas.Count} secciones");
+            }
+
+            Console.WriteLine($"IdAlumno: {matricula.IdAlumno}");
+            Console.WriteLine($"FechaMatricula: {matricula.FechaMatricula}");
+            Console.WriteLine($"Periodo: '{matricula.Periodo}'");
+            Console.WriteLine($"Estado: '{matricula.Estado}'");
+            Console.WriteLine($"SeccionesSeleccionadas Count: {matricula.SeccionesSeleccionadas?.Count ?? 0}");
+            if (matricula.SeccionesSeleccionadas != null)
+            {
+                foreach (var seccion in matricula.SeccionesSeleccionadas)
+                {
+                    Console.WriteLine($"Seccion ID: {seccion}");
+                }
             }
 
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState NO es válido");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Error: {error.ErrorMessage}");
+                }
+
                 // Reconstruccion
                 ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-                ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
+                ViewBag.Secciones = new SelectList(_seccionBC.Listar(), "IdSeccion", "CodigoSeccion");
 
                 return View(matricula);
             }
 
             try
             {
+                Console.WriteLine("Intentando crear matrícula...");
                 _matriculaBC.Crear(matricula);
+                Console.WriteLine("Matrícula creada exitosamente");
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error al crear matrícula: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 ModelState.AddModelError("", ex.Message);
 
                 // Reconstruccion
                 ViewBag.Alumnos = new SelectList(_alumnoBC.ListarAlumnos(), "IdAlumno", "Nombre");
-                ViewBag.Cursos = new SelectList(_cursoBC.Listar(), "IdCurso", "Nombre");
+                ViewBag.Secciones = new SelectList(_seccionBC.Listar(), "IdSeccion", "CodigoSeccion");
 
                 return View(matricula);
             }
@@ -119,16 +162,16 @@ namespace Colegio.PL.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult RetirarCurso(int idMatricula, int idCurso)
+        public IActionResult RetirarSeccion(int idMatricula, int idSeccion)
         {
             try
             {
-                _matriculaBC.RetirarCurso(idMatricula, idCurso);
-                TempData["Success"] = "Curso retirado correctamente";
+                _matriculaBC.RetirarSeccion(idMatricula, idSeccion);
+                TempData["Success"] = "Sección retirada correctamente";
             }
             catch (Exception ex)
             {
-                TempData["Error"] = $"Error al retirar curso: {ex.Message}";
+                TempData["Error"] = $"Error al retirar sección: {ex.Message}";
             }
             return RedirectToAction(nameof(Details), new { id = idMatricula });
         }

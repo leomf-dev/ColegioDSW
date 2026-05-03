@@ -1,0 +1,44 @@
+@model Colegio.BL.BE.SeccionBE
+
+@{
+    ViewBag.Title = "Eliminar Sección";
+}
+
+<h2 class="mb-3">¿Está seguro de que desea eliminar esta sección?</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Información de la Sección</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">ID Sección:</dt>
+            <dd class="col-sm-8">@Model.IdSeccion</dd>
+
+            <dt class="col-sm-4">Código:</dt>
+            <dd class="col-sm-8">@Model.CodigoSeccion</dd>
+
+            <dt class="col-sm-4">Curso:</dt>
+            <dd class="col-sm-8">@Model.NombreCurso</dd>
+
+            <dt class="col-sm-4">Docente:</dt>
+            <dd class="col-sm-8">@Model.NombreDocente</dd>
+
+            <dt class="col-sm-4">Capacidad:</dt>
+            <dd class="col-sm-8">@Model.CapacidadMaxima</dd>
+
+            <dt class="col-sm-4">Estado:</dt>
+            <dd class="col-sm-8">@Model.Estado</dd>
+        </dl>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteConfirmed", "Seccion", new { id = Model.IdSeccion }))
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-warning mt-3">
+        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+    </div>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancelar</a>
+}

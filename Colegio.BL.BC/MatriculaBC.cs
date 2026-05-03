@@ -11,32 +11,32 @@ namespace Colegio.BL.BC
     public class MatriculaBC
     {
         private readonly MatriculaDALC _dalc;
-        private readonly NotaDALC _notaDALC;
+        private readonly DetalleMatriculaDALC _detalleDALC;
         public MatriculaBC(string connectionString)
         {
             _dalc = new MatriculaDALC(connectionString);
-            _notaDALC = new NotaDALC(connectionString);
+            _detalleDALC = new DetalleMatriculaDALC(connectionString);
         }
 
         public int Crear(Matricula m)
         {
-            // Validar que se seleccionaron cursos
-            if (m.CursosSeleccionados == null || !m.CursosSeleccionados.Any())
-                throw new ArgumentException("Debe seleccionar al menos un curso");
+            // Validar que se seleccionaron secciones
+            if (m.SeccionesSeleccionadas == null || !m.SeccionesSeleccionadas.Any())
+                throw new ArgumentException("Debe seleccionar al menos una sección");
 
             // Crear la matrícula
             int idMatricula = _dalc.Insert(m);
 
-            // Crear notas para cada curso seleccionado (con calificación inicial 0)
-            foreach (int idCurso in m.CursosSeleccionados)
+            // Crear detalles de matrícula para cada sección seleccionada
+            foreach (int idSeccion in m.SeccionesSeleccionadas)
             {
-                var nota = new Nota
+                var detalle = new DetalleMatriculaBE
                 {
                     IdMatricula = idMatricula,
-                    IdCurso = idCurso,
-                    Calificacion = 0 // Calificación inicial
+                    IdSeccion = idSeccion,
+                    Estado = "Activo"
                 };
-                _notaDALC.Insert(nota);
+                _detalleDALC.Insert(detalle);
             }
 
             return idMatricula;
@@ -49,8 +49,8 @@ namespace Colegio.BL.BC
             var matricula = _dalc.GetById(id);
             if (matricula != null)
             {
-                // Cargar las notas asociadas
-                matricula.Notas = _notaDALC.GetByMatricula(id);
+                // Cargar los detalles de matrícula
+                matricula.DetallesMatricula = _detalleDALC.GetByMatricula(id);
             }
             return matricula;
         }
@@ -70,17 +70,27 @@ namespace Colegio.BL.BC
             _dalc.UpdateEstado(idMatricula, "Cancelada", motivo);
         }
 
-        public void RetirarCurso(int idMatricula, int idCurso)
+        public void RetirarSeccion(int idMatricula, int idSeccion)
         {
             var matricula = _dalc.GetById(idMatricula);
             if (matricula == null)
                 throw new ArgumentException("Matrícula no encontrada");
 
             if (matricula.Estado != "Activa")
-                throw new InvalidOperationException("Solo se pueden retirar cursos de matrículas activas");
+                throw new InvalidOperationException("Solo se pueden retirar secciones de matrículas activas");
 
-            // Eliminar la nota del curso específico
-            _notaDALC.DeleteByMatriculaAndCurso(idMatricula, idCurso);
+            // Buscar el detalle de matrícula correspondiente
+            var detalle = _detalleDALC.GetByMatricula(idMatricula)
+                .FirstOrDefault(d => d.IdSeccion == idSeccion);
+
+            if (detalle == null)
+                throw new ArgumentException("La sección no está matriculada");
+
+            if (detalle.Estado != "Activo")
+                throw new InvalidOperationException("La sección ya está retirada");
+
+            // Actualizar el estado del detalle
+            _detalleDALC.UpdateEstado(detalle.IdDetalleMatricula, "Retirado");
         }
 
         public Matricula Obtener(int id) => _dalc.GetById(id);

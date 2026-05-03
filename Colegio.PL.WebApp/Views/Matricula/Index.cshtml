@@ -36,11 +36,6 @@
                 </td>
                 <td>
                     <a href="@Url.Action("Details", new { id = m.IdMatricula })" class="btn btn-info btn-sm">Consultar</a>
-                    @if (m.Estado == "Activa")
-                    {
-                        <a href="@Url.Action("Delete", new { id = m.IdMatricula })" class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Está seguro de eliminar esta matrícula?')">Eliminar</a>
-                    }
                 </td>
             </tr>
         }
