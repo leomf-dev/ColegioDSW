@@ -46,12 +46,12 @@ namespace Colegio.DL.DALC
                     {
                         list.Add(new Curso
                         {
-                            IdCurso = Convert.ToInt32(dr["IdCurso"]),
-                            Codigo = dr["Codigo"].ToString(),
-                            Nombre = dr["Nombre"].ToString(),
-                            Creditos = Convert.ToInt32(dr["Creditos"]),
-                            HorasSemanales = Convert.ToInt32(dr["HorasSemanales"]),
-                            Estado = dr["Estado"].ToString()
+                            IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
+                            Codigo = dr["Codigo"] == DBNull.Value ? "" : dr["Codigo"].ToString(),
+                            Nombre = dr["Nombre"] == DBNull.Value ? "" : dr["Nombre"].ToString(),
+                            Creditos = dr["Creditos"] == DBNull.Value ? 0 : Convert.ToInt32(dr["Creditos"]),
+                            HorasSemanales = dr["HorasSemanales"] == DBNull.Value ? 0 : Convert.ToInt32(dr["HorasSemanales"]),
+                            Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString()
                         });
                     }
                 }
@@ -73,12 +73,12 @@ namespace Colegio.DL.DALC
                     {
                         return new Curso
                         {
-                            IdCurso = Convert.ToInt32(dr["IdCurso"]),
-                            Codigo = dr["Codigo"].ToString(),
-                            Nombre = dr["Nombre"].ToString(),
-                            Creditos = Convert.ToInt32(dr["Creditos"]),
-                            HorasSemanales = Convert.ToInt32(dr["HorasSemanales"]),
-                            Estado = dr["Estado"].ToString()
+                            IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
+                            Codigo = dr["Codigo"] == DBNull.Value ? "" : dr["Codigo"].ToString(),
+                            Nombre = dr["Nombre"] == DBNull.Value ? "" : dr["Nombre"].ToString(),
+                            Creditos = dr["Creditos"] == DBNull.Value ? 0 : Convert.ToInt32(dr["Creditos"]),
+                            HorasSemanales = dr["HorasSemanales"] == DBNull.Value ? 0 : Convert.ToInt32(dr["HorasSemanales"]),
+                            Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString()
                         };
                     }
                 }

@@ -45,12 +45,11 @@ namespace Colegio.DL.DALC
                     {
                         list.Add(new HorarioBE
                         {
-                            IdHorario = Convert.ToInt32(dr["IdHorario"]),
-                            Dia = dr["Dia"].ToString(),
-                            HoraInicio = TimeSpan.Parse(dr["HoraInicio"].ToString()),
-                            HoraFin = TimeSpan.Parse(dr["HoraFin"].ToString()),
-                            IdSeccion = Convert.ToInt32(dr["IdSeccion"]),
-                            NombreSeccion = dr["NombreSeccion"].ToString()
+                            IdHorario = dr["IdHorario"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdHorario"]),
+                            Dia = dr["Dia"] == DBNull.Value ? "" : dr["Dia"].ToString(),
+                            HoraInicio = dr["HoraInicio"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraInicio"].ToString()),
+                            HoraFin = dr["HoraFin"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraFin"].ToString()),
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"])
                         });
                     }
                 }
@@ -72,12 +71,12 @@ namespace Colegio.DL.DALC
                     {
                         return new HorarioBE
                         {
-                            IdHorario = Convert.ToInt32(dr["IdHorario"]),
-                            Dia = dr["Dia"].ToString(),
-                            HoraInicio = TimeSpan.Parse(dr["HoraInicio"].ToString()),
-                            HoraFin = TimeSpan.Parse(dr["HoraFin"].ToString()),
-                            IdSeccion = Convert.ToInt32(dr["IdSeccion"]),
-                            NombreSeccion = dr["NombreSeccion"].ToString()
+                            IdHorario = dr["IdHorario"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdHorario"]),
+                            Dia = dr["Dia"] == DBNull.Value ? "" : dr["Dia"].ToString(),
+                            HoraInicio = dr["HoraInicio"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraInicio"].ToString()),
+                            HoraFin = dr["HoraFin"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraFin"].ToString()),
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"]),
+                            NombreSeccion = dr["NombreSeccion"] == DBNull.Value ? "" : dr["NombreSeccion"].ToString()
                         };
                     }
                 }
@@ -100,12 +99,12 @@ namespace Colegio.DL.DALC
                     {
                         list.Add(new HorarioBE
                         {
-                            IdHorario = Convert.ToInt32(dr["IdHorario"]),
-                            Dia = dr["Dia"].ToString(),
-                            HoraInicio = TimeSpan.Parse(dr["HoraInicio"].ToString()),
-                            HoraFin = TimeSpan.Parse(dr["HoraFin"].ToString()),
-                            IdSeccion = Convert.ToInt32(dr["IdSeccion"]),
-                            NombreSeccion = dr["NombreSeccion"].ToString()
+                            IdHorario = dr["IdHorario"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdHorario"]),
+                            Dia = dr["Dia"] == DBNull.Value ? "" : dr["Dia"].ToString(),
+                            HoraInicio = dr["HoraInicio"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraInicio"].ToString()),
+                            HoraFin = dr["HoraFin"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraFin"].ToString()),
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"]),
+                            NombreSeccion = dr["NombreSeccion"] == DBNull.Value ? "" : dr["NombreSeccion"].ToString()
                         });
                     }
                 }

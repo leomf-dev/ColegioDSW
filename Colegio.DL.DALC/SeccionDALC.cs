@@ -46,14 +46,14 @@ namespace Colegio.DL.DALC
                     {
                         list.Add(new SeccionBE
                         {
-                            IdSeccion = Convert.ToInt32(dr["IdSeccion"]),
-                            IdCurso = Convert.ToInt32(dr["IdCurso"]),
-                            IdDocente = Convert.ToInt32(dr["IdDocente"]),
-                            CodigoSeccion = dr["CodigoSeccion"].ToString(),
-                            CapacidadMaxima = Convert.ToInt32(dr["CapacidadMaxima"]),
-                            Estado = dr["Estado"].ToString(),
-                            NombreCurso = dr["NombreCurso"].ToString(),
-                            NombreDocente = dr["NombreDocente"].ToString()
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"]),
+                            IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
+                            IdDocente = dr["IdDocente"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdDocente"]),
+                            CodigoSeccion = dr["CodigoSeccion"] == DBNull.Value ? "" : dr["CodigoSeccion"].ToString(),
+                            CapacidadMaxima = dr["CapacidadMaxima"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CapacidadMaxima"]),
+                            Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString(),
+                            NombreCurso = dr["NombreCurso"] == DBNull.Value ? "" : dr["NombreCurso"].ToString(),
+                            NombreDocente = dr["NombreDocente"] == DBNull.Value ? "" : dr["NombreDocente"].ToString()
                         });
                     }
                 }
@@ -75,14 +75,14 @@ namespace Colegio.DL.DALC
                     {
                         return new SeccionBE
                         {
-                            IdSeccion = Convert.ToInt32(dr["IdSeccion"]),
-                            IdCurso = Convert.ToInt32(dr["IdCurso"]),
-                            IdDocente = Convert.ToInt32(dr["IdDocente"]),
-                            CodigoSeccion = dr["CodigoSeccion"].ToString(),
-                            CapacidadMaxima = Convert.ToInt32(dr["CapacidadMaxima"]),
-                            Estado = dr["Estado"].ToString(),
-                            NombreCurso = dr["NombreCurso"].ToString(),
-                            NombreDocente = dr["NombreDocente"].ToString()
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"]),
+                            IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
+                            IdDocente = dr["IdDocente"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdDocente"]),
+                            CodigoSeccion = dr["CodigoSeccion"] == DBNull.Value ? "" : dr["CodigoSeccion"].ToString(),
+                            CapacidadMaxima = dr["CapacidadMaxima"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CapacidadMaxima"]),
+                            Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString(),
+                            NombreCurso = dr["NombreCurso"] == DBNull.Value ? "" : dr["NombreCurso"].ToString(),
+                            NombreDocente = dr["NombreDocente"] == DBNull.Value ? "" : dr["NombreDocente"].ToString()
                         };
                     }
                 }
