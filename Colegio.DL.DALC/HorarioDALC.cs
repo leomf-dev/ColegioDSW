@@ -49,7 +49,8 @@ namespace Colegio.DL.DALC
                             Dia = dr["Dia"] == DBNull.Value ? "" : dr["Dia"].ToString(),
                             HoraInicio = dr["HoraInicio"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraInicio"].ToString()),
                             HoraFin = dr["HoraFin"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.Parse(dr["HoraFin"].ToString()),
-                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"])
+                            IdSeccion = dr["IdSeccion"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdSeccion"]),
+                            NombreSeccion = dr["NombreSeccion"] == DBNull.Value ? "" : dr["NombreSeccion"].ToString()
                         });
                     }
                 }

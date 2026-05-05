@@ -60,11 +60,6 @@ namespace Colegio.BL.BC
             _dalc.UpdateEstado(idMatricula, "Anulada", motivo);
         }
 
-        public void RetirarMatricula(int idMatricula, string motivo = null)
-        {
-            _dalc.UpdateEstado(idMatricula, "Retirada", motivo);
-        }
-
         public void CancelarMatricula(int idMatricula, string motivo = null)
         {
             _dalc.UpdateEstado(idMatricula, "Cancelada", motivo);

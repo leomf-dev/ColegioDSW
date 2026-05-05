@@ -42,9 +42,21 @@
                 <td>@seccion.NombreDocente</td>
                 <td>@seccion.CapacidadMaxima</td>
                 <td>
-                    <span class="badge @(seccion.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                    @{
+                        var clase = seccion.Estado switch
+                        {
+                            "Activo" or "Activa" => "bg-success",
+                            "Cerrada" => "bg-danger",
+                            "Cancelada" => "bg-secondary",
+                            _ => "bg-secondary"
+                        };
+                    }
+                    <span class="badge @clase">
                         @seccion.Estado
                     </span>
+                    @* <span class="badge @(seccion.Estado == "Activo" ? "bg-success" : "bg-secondary")">
+                        @seccion.Estado
+                    </span> *@
                 </td>
                 <td>
                     <a href="@Url.Action("Details", new { id = seccion.IdSeccion })" class="btn btn-sm btn-info">Ver</a>

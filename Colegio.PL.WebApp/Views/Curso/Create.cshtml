@@ -8,16 +8,36 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Codigo)
+        @Html.TextBoxFor(m => m.Codigo, new { @class = "form-control", placeholder = "ej. INF101" })
+        @Html.ValidationMessageFor(m => m.Codigo)
+    </div>
+
     <div class="form-group mb-3">
         @Html.LabelFor(m => m.Nombre)
-        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "ej. Programación I" })
         @Html.ValidationMessageFor(m => m.Nombre)
     </div>
 
     <div class="form-group mb-3">
         @Html.LabelFor(m => m.Creditos)
-        @Html.TextBoxFor(m => m.Creditos, new { @class = "form-control", type = "number" })
+        @Html.TextBoxFor(m => m.Creditos, new { @class = "form-control", type = "number", min = "1" })
         @Html.ValidationMessageFor(m => m.Creditos)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.HorasSemanales)
+        @Html.TextBoxFor(m => m.HorasSemanales, new { @class = "form-control", type = "number", min = "1" })
+        @Html.ValidationMessageFor(m => m.HorasSemanales)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.Estado)
+        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activo", "Inactivo" }), new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Estado)
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>

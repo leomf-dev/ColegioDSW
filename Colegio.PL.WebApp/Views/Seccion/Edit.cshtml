@@ -32,14 +32,26 @@
     </div>
 
     <div class="form-group mb-3">
+        @Html.LabelFor(m => m.PeriodoAcademico)
+        @Html.TextBoxFor(m => m.PeriodoAcademico, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PeriodoAcademico)
+    </div>
+
+    <div class="form-group mb-3">
         @Html.LabelFor(m => m.CapacidadMaxima)
         @Html.TextBoxFor(m => m.CapacidadMaxima, new { @class = "form-control", type = "number" })
         @Html.ValidationMessageFor(m => m.CapacidadMaxima)
     </div>
 
     <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CupoDisponible)
+        @Html.TextBoxFor(m => m.CupoDisponible, new { @class = "form-control", type = "number", min = "0" })
+        @Html.ValidationMessageFor(m => m.CupoDisponible)
+    </div>
+
+    <div class="form-group mb-3">
         @Html.LabelFor(m => m.Estado)
-        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activo", "Inactivo" }), new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activa", "Cerrada", "Cancelada" }), new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Estado)
     </div>
 

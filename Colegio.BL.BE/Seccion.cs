@@ -12,8 +12,10 @@ namespace Colegio.BL.BE
         public int IdCurso { get; set; }
         public int IdDocente { get; set; }
         public string CodigoSeccion { get; set; } = string.Empty; // ej. INF101-A, INF101-B
+        public string PeriodoAcademico { get; set; } = string.Empty; // ej. 2026-I
         public int CapacidadMaxima { get; set; } = 30;
-        public string Estado { get; set; } = "Activo";
+        public int CupoDisponible { get; set; } = 0;
+        public string Estado { get; set; } = "Activa";
 
         // Propiedades de navegación
         public string? NombreCurso { get; set; }

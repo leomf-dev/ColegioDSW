@@ -132,21 +132,6 @@ namespace Colegio.PL.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Retirar(int id, string observacion)
-        {
-            try
-            {
-                _matriculaBC.RetirarMatricula(id, observacion);
-                TempData["Success"] = "Matrícula retirada correctamente";
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = $"Error al retirar matrícula: {ex.Message}";
-            }
-            return RedirectToAction(nameof(Details), new { id });
-        }
-
-        [HttpPost]
         public IActionResult Cancelar(int id, string observacion)
         {
             try

@@ -30,7 +30,7 @@
                 <td>@m.FechaMatricula.ToString("dd/MM/yyyy")</td>
                 <td>@m.Periodo</td>
                 <td>
-                    <span class="badge @(m.Estado == "Activa" ? "bg-success" : m.Estado == "Anulada" ? "bg-danger" : m.Estado == "Retirada" ? "bg-warning" : "bg-secondary")">
+                    <span class="badge @(m.Estado == "Activa" ? "bg-success" : m.Estado == "Anulada" ? "bg-danger" : m.Estado == "Cancelada" ? "bg-warning" : "bg-secondary")">
                         @m.Estado
                     </span>
                 </td>

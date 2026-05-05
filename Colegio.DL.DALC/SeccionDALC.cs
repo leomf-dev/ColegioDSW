@@ -22,7 +22,9 @@ namespace Colegio.DL.DALC
                 cmd.Parameters.AddWithValue("@IdCurso", s.IdCurso);
                 cmd.Parameters.AddWithValue("@IdDocente", s.IdDocente);
                 cmd.Parameters.AddWithValue("@CodigoSeccion", s.CodigoSeccion);
+                cmd.Parameters.AddWithValue("@PeriodoAcademico", s.PeriodoAcademico);
                 cmd.Parameters.AddWithValue("@CapacidadMaxima", s.CapacidadMaxima);
+                cmd.Parameters.AddWithValue("@CupoDisponible", s.CupoDisponible);
                 cmd.Parameters.AddWithValue("@Estado", s.Estado);
                 var p = new SqlParameter("@NewId", System.Data.SqlDbType.Int) { Direction = System.Data.ParameterDirection.Output };
                 cmd.Parameters.Add(p);
@@ -50,7 +52,9 @@ namespace Colegio.DL.DALC
                             IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
                             IdDocente = dr["IdDocente"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdDocente"]),
                             CodigoSeccion = dr["CodigoSeccion"] == DBNull.Value ? "" : dr["CodigoSeccion"].ToString(),
+                            PeriodoAcademico = dr["PeriodoAcademico"] == DBNull.Value ? "" : dr["PeriodoAcademico"].ToString(),
                             CapacidadMaxima = dr["CapacidadMaxima"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CapacidadMaxima"]),
+                            CupoDisponible = dr["CupoDisponible"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CupoDisponible"]),
                             Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString(),
                             NombreCurso = dr["NombreCurso"] == DBNull.Value ? "" : dr["NombreCurso"].ToString(),
                             NombreDocente = dr["NombreDocente"] == DBNull.Value ? "" : dr["NombreDocente"].ToString()
@@ -79,7 +83,9 @@ namespace Colegio.DL.DALC
                             IdCurso = dr["IdCurso"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdCurso"]),
                             IdDocente = dr["IdDocente"] == DBNull.Value ? 0 : Convert.ToInt32(dr["IdDocente"]),
                             CodigoSeccion = dr["CodigoSeccion"] == DBNull.Value ? "" : dr["CodigoSeccion"].ToString(),
+                            PeriodoAcademico = dr["PeriodoAcademico"] == DBNull.Value ? "" : dr["PeriodoAcademico"].ToString(),
                             CapacidadMaxima = dr["CapacidadMaxima"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CapacidadMaxima"]),
+                            CupoDisponible = dr["CupoDisponible"] == DBNull.Value ? 0 : Convert.ToInt32(dr["CupoDisponible"]),
                             Estado = dr["Estado"] == DBNull.Value ? "" : dr["Estado"].ToString(),
                             NombreCurso = dr["NombreCurso"] == DBNull.Value ? "" : dr["NombreCurso"].ToString(),
                             NombreDocente = dr["NombreDocente"] == DBNull.Value ? "" : dr["NombreDocente"].ToString()
@@ -100,7 +106,9 @@ namespace Colegio.DL.DALC
                 cmd.Parameters.AddWithValue("@IdCurso", s.IdCurso);
                 cmd.Parameters.AddWithValue("@IdDocente", s.IdDocente);
                 cmd.Parameters.AddWithValue("@CodigoSeccion", s.CodigoSeccion);
+                cmd.Parameters.AddWithValue("@PeriodoAcademico", s.PeriodoAcademico);
                 cmd.Parameters.AddWithValue("@CapacidadMaxima", s.CapacidadMaxima);
+                cmd.Parameters.AddWithValue("@CupoDisponible", s.CupoDisponible);
                 cmd.Parameters.AddWithValue("@Estado", s.Estado);
                 cn.Open(); cmd.ExecuteNonQuery();
             }

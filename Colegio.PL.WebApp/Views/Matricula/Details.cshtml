@@ -31,7 +31,7 @@
 
                     <dt class="col-sm-4">Estado:</dt>
                     <dd class="col-sm-8">
-                        <span class="badge @(Model.Estado == "Activa" ? "bg-success" : Model.Estado == "Anulada" ? "bg-danger" : Model.Estado == "Retirada" ? "bg-warning" : "bg-secondary")">
+                        <span class="badge @(Model.Estado == "Activa" ? "bg-success" : Model.Estado == "Anulada" ? "bg-danger" : Model.Estado == "Cancelada" ? "bg-warning" : "bg-secondary")">
                             @Model.Estado
                         </span>
                         @if (Model.FechaEstado.HasValue)
@@ -124,19 +124,6 @@
                             <button type="submit" class="btn btn-danger btn-sm"
                                     onclick="return confirm('¿Está seguro de anular esta matrícula?')">
                                 Anular Matrícula
-                            </button>
-                        </form>
-
-                        <form method="post" action="@Url.Action("Retirar", "Matricula")" style="display:inline; margin-left: 10px;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@Model.IdMatricula" />
-                            <div class="mb-2">
-                                <label>Observación para retirar:</label>
-                                <input type="text" name="observacion" class="form-control form-control-sm" placeholder="Motivo de retiro" />
-                            </div>
-                            <button type="submit" class="btn btn-warning btn-sm"
-                                    onclick="return confirm('¿Está seguro de retirar esta matrícula?')">
-                                Retirar Matrícula
                             </button>
                         </form>
 

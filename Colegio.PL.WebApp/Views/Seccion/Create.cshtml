@@ -11,34 +11,46 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
     <div class="form-group mb-3">
-        <label>Curso</label>
+        @Html.LabelFor(m => m.IdCurso, "Curso")
         @Html.DropDownListFor(m => m.IdCurso, (IEnumerable<SelectListItem>)ViewBag.Cursos,
         "-- Seleccione Curso --", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.IdCurso)
     </div>
 
     <div class="form-group mb-3">
-        <label>Docente</label>
+        @Html.LabelFor(m => m.IdDocente, "Docente")
         @Html.DropDownListFor(m => m.IdDocente, (IEnumerable<SelectListItem>)ViewBag.Docentes,
         "-- Seleccione Docente --", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.IdDocente)
     </div>
 
     <div class="form-group mb-3">
-        @Html.LabelFor(m => m.CodigoSeccion)
-        @Html.TextBoxFor(m => m.CodigoSeccion, new { @class = "form-control" })
+        @Html.LabelFor(m => m.CodigoSeccion, "Código de Sección")
+        @Html.TextBoxFor(m => m.CodigoSeccion, new { @class = "form-control", placeholder = "ej. INF101-A" })
         @Html.ValidationMessageFor(m => m.CodigoSeccion)
     </div>
 
     <div class="form-group mb-3">
-        @Html.LabelFor(m => m.CapacidadMaxima)
-        @Html.TextBoxFor(m => m.CapacidadMaxima, new { @class = "form-control", type = "number" })
+        @Html.LabelFor(m => m.PeriodoAcademico, "Periodo Académico")
+        @Html.TextBoxFor(m => m.PeriodoAcademico, new { @class = "form-control", placeholder = "ej. 2026-I" })
+        @Html.ValidationMessageFor(m => m.PeriodoAcademico)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CapacidadMaxima, "Capacidad Máxima")
+        @Html.TextBoxFor(m => m.CapacidadMaxima, new { @class = "form-control", type = "number", min = "1" })
         @Html.ValidationMessageFor(m => m.CapacidadMaxima)
     </div>
 
     <div class="form-group mb-3">
+        @Html.LabelFor(m => m.CupoDisponible, "Cupo Disponible")
+        @Html.TextBoxFor(m => m.CupoDisponible, new { @class = "form-control", type = "number", min = "0" })
+        @Html.ValidationMessageFor(m => m.CupoDisponible)
+    </div>
+
+    <div class="form-group mb-3">
         @Html.LabelFor(m => m.Estado)
-        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activo", "Inactivo" }), new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.Estado, new SelectList(new[] { "Activa", "Cerrada", "Cancelada" }), new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Estado)
     </div>
 

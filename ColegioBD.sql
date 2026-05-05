@@ -23,8 +23,45 @@ GO
 
 CREATE TABLE Curso (
     IdCurso INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo NVARCHAR(50) NULL,
     Nombre NVARCHAR(150) NOT NULL,
-    Creditos INT NOT NULL DEFAULT 3
+    Creditos INT NOT NULL DEFAULT 3,
+    HorasSemanales INT NOT NULL DEFAULT 0,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activo'
+);
+GO
+
+CREATE TABLE Docente (
+    IdDocente INT IDENTITY(1,1) PRIMARY KEY,
+    Nombres NVARCHAR(100) NOT NULL,
+    Apellidos NVARCHAR(100) NOT NULL,
+    Especialidad NVARCHAR(100) NOT NULL,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activo'
+);
+GO
+
+CREATE TABLE Seccion (
+    IdSeccion INT IDENTITY(1,1) PRIMARY KEY,
+    IdCurso INT NOT NULL,
+    IdDocente INT NOT NULL,
+    CodigoSeccion NVARCHAR(20) NOT NULL UNIQUE,
+    PeriodoAcademico NVARCHAR(50) NOT NULL,
+    CapacidadMaxima INT NOT NULL DEFAULT 30,
+    CupoDisponible INT NOT NULL DEFAULT 0,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activa' CHECK (Estado IN ('Activa', 'Activo', 'Cerrada', 'Cancelada')),
+    CONSTRAINT FK_Seccion_Curso FOREIGN KEY (IdCurso) REFERENCES Curso(IdCurso) ON DELETE CASCADE,
+    CONSTRAINT FK_Seccion_Docente FOREIGN KEY (IdDocente) REFERENCES Docente(IdDocente) ON DELETE NO ACTION
+);
+GO
+
+CREATE TABLE Horario (
+    IdHorario INT IDENTITY(1,1) PRIMARY KEY,
+    IdSeccion INT NOT NULL,
+    Dia NVARCHAR(20) NOT NULL CHECK (Dia IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')),
+    HoraInicio TIME NOT NULL,
+    HoraFin TIME NOT NULL,
+    CONSTRAINT FK_Horario_Seccion FOREIGN KEY (IdSeccion) REFERENCES Seccion(IdSeccion) ON DELETE CASCADE,
+    CONSTRAINT CHK_Horario_Horas CHECK (HoraInicio < HoraFin)
 );
 GO
 
@@ -33,10 +70,20 @@ CREATE TABLE Matricula (
     IdAlumno INT NOT NULL,
     FechaMatricula DATETIME NOT NULL DEFAULT GETDATE(),
     Periodo NVARCHAR(50) NOT NULL,
-    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activa' CHECK (Estado IN ('Activa', 'Anulada', 'Retirada', 'Cancelada')),
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activa' CHECK (Estado IN ('Activa', 'Anulada', 'Cancelada')),
     FechaEstado DATETIME NULL,
     Observacion NVARCHAR(500) NULL,
     CONSTRAINT FK_Matricula_Alumno FOREIGN KEY (IdAlumno) REFERENCES Alumno(IdAlumno) ON DELETE CASCADE
+);
+GO
+
+CREATE TABLE DetalleMatricula (
+    IdDetalleMatricula INT IDENTITY(1,1) PRIMARY KEY,
+    IdMatricula INT NOT NULL,
+    IdSeccion INT NOT NULL,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Activo' CHECK (Estado IN ('Activo', 'Retirado')),
+    CONSTRAINT FK_DetalleMatricula_Matricula FOREIGN KEY (IdMatricula) REFERENCES Matricula(IdMatricula) ON DELETE CASCADE,
+    CONSTRAINT FK_DetalleMatricula_Seccion FOREIGN KEY (IdSeccion) REFERENCES Seccion(IdSeccion) ON DELETE NO ACTION
 );
 GO
 
@@ -136,13 +183,17 @@ GO
 
 -- 5) Stored Procedures: CURSO
 CREATE PROCEDURE sp_Curso_Insert
+    @Codigo NVARCHAR(50),
     @Nombre NVARCHAR(150),
     @Creditos INT,
+    @HorasSemanales INT,
+    @Estado NVARCHAR(20),
     @NewId INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
-    INSERT INTO Curso (Nombre, Creditos) VALUES (@Nombre, @Creditos);
+    INSERT INTO Curso (Codigo, Nombre, Creditos, HorasSemanales, Estado)
+    VALUES (@Codigo, @Nombre, @Creditos, @HorasSemanales, @Estado);
     SET @NewId = SCOPE_IDENTITY();
 END
 GO
@@ -166,12 +217,21 @@ GO
 
 CREATE PROCEDURE sp_Curso_Update
     @IdCurso INT,
+    @Codigo NVARCHAR(50),
     @Nombre NVARCHAR(150),
-    @Creditos INT
+    @Creditos INT,
+    @HorasSemanales INT,
+    @Estado NVARCHAR(20)
 AS
 BEGIN
     SET NOCOUNT ON;
-    UPDATE Curso SET Nombre = @Nombre, Creditos = @Creditos WHERE IdCurso = @IdCurso;
+    UPDATE Curso
+    SET Codigo = @Codigo,
+        Nombre = @Nombre,
+        Creditos = @Creditos,
+        HorasSemanales = @HorasSemanales,
+        Estado = @Estado
+    WHERE IdCurso = @IdCurso;
 END
 GO
 
@@ -184,7 +244,224 @@ BEGIN
 END
 GO
 
--- 6) Stored Procedures: MATRICULA
+-- 6) Stored Procedures: DOCENTE
+CREATE PROCEDURE sp_Docente_Insert
+    @Nombres NVARCHAR(100),
+    @Apellidos NVARCHAR(100),
+    @Especialidad NVARCHAR(100),
+    @Estado NVARCHAR(20),
+    @NewId INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Docente (Nombres, Apellidos, Especialidad, Estado)
+    VALUES (@Nombres, @Apellidos, @Especialidad, @Estado);
+    SET @NewId = SCOPE_IDENTITY();
+END
+GO
+
+CREATE PROCEDURE sp_Docente_GetAll
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT * FROM Docente ORDER BY Apellidos, Nombres;
+END
+GO
+
+CREATE PROCEDURE sp_Docente_GetById
+    @IdDocente INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT * FROM Docente WHERE IdDocente = @IdDocente;
+END
+GO
+
+CREATE PROCEDURE sp_Docente_Update
+    @IdDocente INT,
+    @Nombres NVARCHAR(100),
+    @Apellidos NVARCHAR(100),
+    @Especialidad NVARCHAR(100),
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Docente
+    SET Nombres = @Nombres,
+        Apellidos = @Apellidos,
+        Especialidad = @Especialidad,
+        Estado = @Estado
+    WHERE IdDocente = @IdDocente;
+END
+GO
+
+CREATE PROCEDURE sp_Docente_Delete
+    @IdDocente INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM Docente WHERE IdDocente = @IdDocente;
+END
+GO
+
+-- 7) Stored Procedures: SECCION
+CREATE PROCEDURE sp_Seccion_Insert
+    @IdCurso INT,
+    @IdDocente INT,
+    @CodigoSeccion NVARCHAR(20),
+    @PeriodoAcademico NVARCHAR(50),
+    @CapacidadMaxima INT,
+    @CupoDisponible INT = NULL,
+    @Estado NVARCHAR(20),
+    @NewId INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Seccion (IdCurso, IdDocente, CodigoSeccion, PeriodoAcademico, CapacidadMaxima, CupoDisponible, Estado)
+    VALUES (@IdCurso, @IdDocente, @CodigoSeccion, @PeriodoAcademico, @CapacidadMaxima, ISNULL(@CupoDisponible, @CapacidadMaxima), @Estado);
+    SET @NewId = SCOPE_IDENTITY();
+END
+GO
+
+CREATE PROCEDURE sp_Seccion_GetAll
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT s.*, c.Nombre as NombreCurso, c.Codigo as CodigoCurso,
+           d.Nombres + ' ' + d.Apellidos as NombreDocente
+    FROM Seccion s
+    INNER JOIN Curso c ON s.IdCurso = c.IdCurso
+    INNER JOIN Docente d ON s.IdDocente = d.IdDocente
+    ORDER BY s.CodigoSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_Seccion_GetById
+    @IdSeccion INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT s.*, c.Nombre as NombreCurso, c.Codigo as CodigoCurso,
+           d.Nombres + ' ' + d.Apellidos as NombreDocente
+    FROM Seccion s
+    INNER JOIN Curso c ON s.IdCurso = c.IdCurso
+    INNER JOIN Docente d ON s.IdDocente = d.IdDocente
+    WHERE s.IdSeccion = @IdSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_Seccion_Update
+    @IdSeccion INT,
+    @IdCurso INT,
+    @IdDocente INT,
+    @CodigoSeccion NVARCHAR(20),
+    @PeriodoAcademico NVARCHAR(50),
+    @CapacidadMaxima INT,
+    @CupoDisponible INT = NULL,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Seccion
+    SET IdCurso = @IdCurso,
+        IdDocente = @IdDocente,
+        CodigoSeccion = @CodigoSeccion,
+        PeriodoAcademico = @PeriodoAcademico,
+        CapacidadMaxima = @CapacidadMaxima,
+        CupoDisponible = ISNULL(@CupoDisponible, CupoDisponible),
+        Estado = @Estado
+    WHERE IdSeccion = @IdSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_Seccion_Delete
+    @IdSeccion INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM Seccion WHERE IdSeccion = @IdSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_Horario_Insert
+    @IdSeccion INT,
+    @Dia NVARCHAR(20),
+    @HoraInicio TIME,
+    @HoraFin TIME,
+    @NewId INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Horario (IdSeccion, Dia, HoraInicio, HoraFin)
+    VALUES (@IdSeccion, @Dia, @HoraInicio, @HoraFin);
+    SET @NewId = SCOPE_IDENTITY();
+END
+GO
+
+CREATE PROCEDURE sp_Horario_GetAll
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT h.*, s.CodigoSeccion AS NombreSeccion
+    FROM Horario h
+    INNER JOIN Seccion s ON h.IdSeccion = s.IdSeccion
+    ORDER BY s.CodigoSeccion, h.Dia, h.HoraInicio;
+END
+GO
+
+CREATE PROCEDURE sp_Horario_GetById
+    @IdHorario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT h.*, s.CodigoSeccion AS NombreSeccion
+    FROM Horario h
+    INNER JOIN Seccion s ON h.IdSeccion = s.IdSeccion
+    WHERE h.IdHorario = @IdHorario;
+END
+GO
+
+CREATE PROCEDURE sp_Horario_GetBySeccion
+    @IdSeccion INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT h.*, s.CodigoSeccion AS NombreSeccion
+    FROM Horario h
+    INNER JOIN Seccion s ON h.IdSeccion = s.IdSeccion
+    WHERE h.IdSeccion = @IdSeccion
+    ORDER BY h.Dia, h.HoraInicio;
+END
+GO
+
+CREATE PROCEDURE sp_Horario_Update
+    @IdHorario INT,
+    @IdSeccion INT,
+    @Dia NVARCHAR(20),
+    @HoraInicio TIME,
+    @HoraFin TIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Horario SET
+        IdSeccion = @IdSeccion,
+        Dia = @Dia,
+        HoraInicio = @HoraInicio,
+        HoraFin = @HoraFin
+    WHERE IdHorario = @IdHorario;
+END
+GO
+
+CREATE PROCEDURE sp_Horario_Delete
+    @IdHorario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM Horario WHERE IdHorario = @IdHorario;
+END
+GO
+
+-- 8) Stored Procedures: MATRICULA
 CREATE PROCEDURE sp_Matricula_Insert
     @IdAlumno INT,
     @Periodo NVARCHAR(50),
@@ -223,6 +500,103 @@ AS
 BEGIN
     SET NOCOUNT ON;
     DELETE FROM Matricula WHERE IdMatricula = @IdMatricula;
+END
+GO
+
+-- 8) Stored Procedures: DETALLEMATRICULA
+CREATE PROCEDURE sp_DetalleMatricula_Insert
+    @IdMatricula INT,
+    @IdSeccion INT,
+    @Estado NVARCHAR(20),
+    @NewId INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO DetalleMatricula (IdMatricula, IdSeccion, Estado)
+    VALUES (@IdMatricula, @IdSeccion, @Estado);
+    SET @NewId = SCOPE_IDENTITY();
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_GetAll
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT dm.*, m.IdAlumno, s.CodigoSeccion, c.Nombre AS NombreCurso,
+           d.Nombres + ' ' + d.Apellidos AS NombreDocente
+    FROM DetalleMatricula dm
+    INNER JOIN Matricula m ON dm.IdMatricula = m.IdMatricula
+    INNER JOIN Seccion s ON dm.IdSeccion = s.IdSeccion
+    INNER JOIN Curso c ON s.IdCurso = c.IdCurso
+    INNER JOIN Docente d ON s.IdDocente = d.IdDocente
+    ORDER BY dm.IdMatricula, s.CodigoSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_GetById
+    @IdDetalleMatricula INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT dm.*, m.IdAlumno, s.CodigoSeccion, c.Nombre AS NombreCurso,
+           d.Nombres + ' ' + d.Apellidos AS NombreDocente
+    FROM DetalleMatricula dm
+    INNER JOIN Matricula m ON dm.IdMatricula = m.IdMatricula
+    INNER JOIN Seccion s ON dm.IdSeccion = s.IdSeccion
+    INNER JOIN Curso c ON s.IdCurso = c.IdCurso
+    INNER JOIN Docente d ON s.IdDocente = d.IdDocente
+    WHERE dm.IdDetalleMatricula = @IdDetalleMatricula;
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_GetByMatricula
+    @IdMatricula INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT dm.*, s.CodigoSeccion, c.Nombre AS NombreCurso,
+           d.Nombres + ' ' + d.Apellidos AS NombreDocente
+    FROM DetalleMatricula dm
+    INNER JOIN Seccion s ON dm.IdSeccion = s.IdSeccion
+    INNER JOIN Curso c ON s.IdCurso = c.IdCurso
+    INNER JOIN Docente d ON s.IdDocente = d.IdDocente
+    WHERE dm.IdMatricula = @IdMatricula
+    ORDER BY s.CodigoSeccion;
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_Update
+    @IdDetalleMatricula INT,
+    @IdMatricula INT,
+    @IdSeccion INT,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE DetalleMatricula
+    SET IdMatricula = @IdMatricula,
+        IdSeccion = @IdSeccion,
+        Estado = @Estado
+    WHERE IdDetalleMatricula = @IdDetalleMatricula;
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_UpdateEstado
+    @IdDetalleMatricula INT,
+    @Estado NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE DetalleMatricula SET Estado = @Estado WHERE IdDetalleMatricula = @IdDetalleMatricula;
+END
+GO
+
+CREATE PROCEDURE sp_DetalleMatricula_Delete
+    @IdDetalleMatricula INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM DetalleMatricula WHERE IdDetalleMatricula = @IdDetalleMatricula;
 END
 GO
 

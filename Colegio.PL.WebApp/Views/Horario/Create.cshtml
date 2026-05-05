@@ -11,27 +11,27 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
     <div class="form-group mb-3">
-        <label>Sección</label>
+        @Html.LabelFor(m => m.IdSeccion)
         @Html.DropDownListFor(m => m.IdSeccion, (IEnumerable<SelectListItem>)ViewBag.Secciones,
         "-- Seleccione Sección --", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.IdSeccion)
     </div>
 
     <div class="form-group mb-3">
-        <label>Día</label>
+        @Html.LabelFor(m => m.Dia)
         @Html.DropDownListFor(m => m.Dia, (IEnumerable<SelectListItem>)ViewBag.Dias,
         "-- Seleccione Día --", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Dia)
     </div>
 
     <div class="form-group mb-3">
-        @Html.LabelFor(m => m.HoraInicio)
+        @Html.LabelFor(m => m.HoraInicio, "Hora de Inicio")
         @Html.TextBoxFor(m => m.HoraInicio, new { @class = "form-control", type = "time" })
         @Html.ValidationMessageFor(m => m.HoraInicio)
     </div>
 
     <div class="form-group mb-3">
-        @Html.LabelFor(m => m.HoraFin)
+        @Html.LabelFor(m => m.HoraFin, "Hora de Fin")
         @Html.TextBoxFor(m => m.HoraFin, new { @class = "form-control", type = "time" })
         @Html.ValidationMessageFor(m => m.HoraFin)
     </div>
